@@ -13,10 +13,10 @@ describe('DeezerAttribution', () => {
   })
 
   it('links to the entity page and shows the label when given', () => {
-    render(<DeezerAttribution href="https://www.deezer.com/album/302127" label="Open on Deezer" />)
+    render(<DeezerAttribution href="https://www.deezer.com/album/302127" label="Open on" />)
     const link = screen.getByRole('link', { name: 'Open on Deezer' })
     expect(link).toHaveAttribute('href', 'https://www.deezer.com/album/302127')
-    expect(screen.getByText('Open on Deezer')).toBeVisible()
-    expect(link).toHaveAttribute('title')
+    expect(screen.getByText('Open on')).toBeVisible()
+    expect(screen.getByRole('tooltip')).toBeInTheDocument()
   })
 })

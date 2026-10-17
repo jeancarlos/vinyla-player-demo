@@ -13,14 +13,7 @@ import { usePlayer } from '@/contexts/PlayerContext'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { currentPath, getFromPath } from '@/utils/routerState'
-
-export function ControlTip({ label }: { label: string }) {
-  return (
-    <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-0.5 text-xs bg-black/80 text-white rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
-      {label}
-    </span>
-  )
-}
+import { Tooltip } from '@/components/shared/Tooltip'
 
 export function PlaybackControls() {
   const { state, controls } = usePlayer()
@@ -48,7 +41,7 @@ export function PlaybackControls() {
 
   return (
     <div className="flex items-center gap-1.5 shrink-0">
-      <div className="relative group hidden sm:block">
+      <Tooltip content={t('player.shuffle')} className="hidden sm:block">
         <button
           onClick={() => {
             controls.setShuffle(!shuffle)
@@ -62,10 +55,9 @@ export function PlaybackControls() {
         >
           <Shuffle size={15} />
         </button>
-        <ControlTip label={t('player.shuffle')} />
-      </div>
+      </Tooltip>
 
-      <div className="relative group hidden min-[400px]:block">
+      <Tooltip content={t('player.previous')} className="hidden min-[400px]:block">
         <button
           onClick={() => {
             controls.previous()
@@ -75,10 +67,9 @@ export function PlaybackControls() {
         >
           <SkipBack size={18} className="fill-current" />
         </button>
-        <ControlTip label={t('player.previous')} />
-      </div>
+      </Tooltip>
 
-      <div className="relative group/play">
+      <Tooltip content={playLabel}>
         <button
           onClick={() => {
             controls.toggle()
@@ -93,12 +84,9 @@ export function PlaybackControls() {
             <Play size={14} className="fill-current ml-0.5" />
           )}
         </button>
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-52 text-center text-xs text-white bg-black/85 rounded-lg px-3 py-2 opacity-0 group-hover/play:opacity-100 transition-opacity pointer-events-none whitespace-normal leading-snug z-50">
-          {playLabel}
-        </div>
-      </div>
+      </Tooltip>
 
-      <div className="relative group hidden min-[400px]:block">
+      <Tooltip content={t('player.next')} className="hidden min-[400px]:block">
         <button
           onClick={() => {
             controls.next()
@@ -108,10 +96,9 @@ export function PlaybackControls() {
         >
           <SkipForward size={18} className="fill-current" />
         </button>
-        <ControlTip label={t('player.next')} />
-      </div>
+      </Tooltip>
 
-      <div className="relative group hidden sm:block">
+      <Tooltip content={t('player.repeat')} className="hidden sm:block">
         <button
           onClick={() => {
             controls.cycleRepeat()
@@ -125,10 +112,9 @@ export function PlaybackControls() {
         >
           {repeat === 'track' ? <Repeat1 size={15} /> : <Repeat size={15} />}
         </button>
-        <ControlTip label={t('player.repeat')} />
-      </div>
+      </Tooltip>
 
-      <div className="relative group hidden sm:block">
+      <Tooltip content={queueLabel} className="hidden sm:block">
         <button
           onClick={toggleQueue}
           aria-label={queueLabel}
@@ -136,8 +122,7 @@ export function PlaybackControls() {
         >
           <ListMusic size={15} />
         </button>
-        <ControlTip label={queueLabel} />
-      </div>
+      </Tooltip>
     </div>
   )
 }

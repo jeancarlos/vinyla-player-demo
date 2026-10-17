@@ -27,6 +27,7 @@ export function ArtistDetail() {
     artistName,
     artistLink,
     albumItems,
+    albumsLoading,
     activeTrackId,
     notFound,
   } = useArtistDetailPage(id)
@@ -69,6 +70,7 @@ export function ArtistDetail() {
 
           <ArtistDiscography
             albums={albumItems}
+            isLoading={albumsLoading}
             view={discographyView}
             onViewChange={setDiscographyView}
             onAlbumClick={handleAlbumClick}

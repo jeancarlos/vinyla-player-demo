@@ -9,14 +9,35 @@ import type { AlbumSimple } from '@/types/music'
 
 interface ArtistDiscographyProps {
   albums: AlbumSimple[]
+  isLoading?: boolean
   view: ViewMode
   onViewChange: (view: ViewMode) => void
   onAlbumClick: (album: AlbumSimple) => void
   pagination: { page: number; hasNext: boolean; onPrev: () => void; onNext: () => void }
 }
 
+const SKELETON_ROWS = 10
+
+function DiscographySkeleton() {
+  return (
+    <div className="space-y-1 animate-pulse" aria-hidden="true">
+      {Array.from({ length: SKELETON_ROWS }, (_, i) => (
+        <div key={i} className="flex items-center gap-3 px-3 py-2">
+          <div className="w-10 h-10 rounded-lg bg-black/10 shrink-0" />
+          <div className="flex-1 space-y-1.5">
+            <div className="h-3 w-2/5 rounded-full bg-black/10" />
+            <div className="h-2.5 w-10 rounded-full bg-black/[0.07]" />
+          </div>
+          <div className="h-2.5 w-12 rounded-full bg-black/[0.07] shrink-0" />
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export function ArtistDiscography({
   albums,
+  isLoading = false,
   view,
   onViewChange,
   onAlbumClick,
@@ -31,9 +52,11 @@ export function ArtistDiscography({
         <ListTableSwitch view={view} onChange={onViewChange} />
       </div>
 
-      {view === 'table' ? (
-        <AlbumTable albums={albums} onClick={onAlbumClick} />
-      ) : (
+      {isLoading && <DiscographySkeleton />}
+
+      {!isLoading && view === 'table' && <AlbumTable albums={albums} onClick={onAlbumClick} />}
+
+      {!isLoading && view !== 'table' && (
         <div className="space-y-1">
           {albums.map((album) => (
             <div
@@ -66,13 +89,15 @@ export function ArtistDiscography({
                   {album.release_date ? formatDate(album.release_date, 'year') : ''}
                 </p>
               </div>
-              <span className="text-xs text-black/60 shrink-0 capitalize">{albumTypeLabel(t, album.album_type)}</span>
+              <span className="text-xs text-black/60 shrink-0 capitalize">
+                {albumTypeLabel(t, album.album_type)}
+              </span>
             </div>
           ))}
         </div>
       )}
 
-      <Pagination {...pagination} className="mt-4" />
+      {!isLoading && <Pagination {...pagination} className="mt-4" />}
     </section>
   )
 }

@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Info } from 'lucide-react'
+import { Tooltip } from '@/components/shared/Tooltip'
 import { usePlayer, useProgress } from '@/contexts/PlayerContext'
 import { useTranslation } from 'react-i18next'
 import { VinylDisk } from '@/components/vinyl/VinylDisk'
@@ -44,7 +45,12 @@ export function TrackInfo({ notes }: TrackInfoProps) {
       <div className="flex items-center gap-2.5 min-w-0">
         <div className="relative shrink-0">
           {personalNote && (
-            <div className="group/note absolute top-0 left-0 z-10">
+            <Tooltip
+              content={personalNote}
+              align="start"
+              maxWidth="max-w-[200px]"
+              className="absolute top-0 left-0 z-10"
+            >
               <button
                 type="button"
                 className="w-5 h-5 rounded-full bg-white shadow-md flex items-center justify-center text-black/60 hover:text-black transition-colors focus-visible:ring-2 focus-visible:ring-black/40 focus-visible:outline-none"
@@ -52,13 +58,7 @@ export function TrackInfo({ notes }: TrackInfoProps) {
               >
                 <Info size={12} />
               </button>
-              <span
-                aria-hidden="true"
-                className="absolute regular bottom-full left-0 mb-1.5 px-2 py-0.5 text-xs leading-snug bg-black/80 text-white rounded opacity-0 group-hover/note:opacity-100 group-focus-within/note:opacity-100 transition-opacity pointer-events-none z-50 w-max max-w-[200px]"
-              >
-                {personalNote}
-              </span>
-            </div>
+            </Tooltip>
           )}
           <button
             type="button"

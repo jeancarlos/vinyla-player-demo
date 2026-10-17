@@ -6,6 +6,11 @@
     "languageSwitcher": "Seletor de idioma",
     "sourceCode": "Código-fonte"
   },
+  "welcome": {
+    "hint": "Busque artistas, álbuns e playlists e ouça prévias de 30 segundos.",
+    "tag": "Projeto de portfólio.",
+    "button": "Começar"
+  },
   "home": {
     "popular": "Populares",
     "recentlyPlayed": "Tocadas Recentemente",
@@ -37,7 +42,7 @@
     "error": "Algo deu errado",
     "back": "Voltar",
     "poweredByDeezer": "Dados e prévias de música por Deezer",
-    "openOnDeezer": "Abrir no Deezer",
+    "openOn": "Abrir no",
     "skipToContent": "Pular para o conteúdo principal",
     "list": "Lista",
     "table": "Tabela",

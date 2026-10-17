@@ -32,6 +32,7 @@ export function ArtistHeader({ images, name, subtitle, link, onLayout }: ArtistH
 
   const scrollY = useMotionValue(0)
   const opacity = useTransform(scrollY, [0, headerHeight * 0.65], [1, 0])
+  const y = useTransform(scrollY, (v) => -v)
 
   const lastHeight = useRef<number>(0)
   useEffect(() => {
@@ -57,7 +58,7 @@ export function ArtistHeader({ images, name, subtitle, link, onLayout }: ArtistH
   return (
     <motion.div
       className="fixed top-0 left-0 right-0 pointer-events-none"
-      style={{ height: headerHeight, opacity, zIndex: 5 }}
+      style={{ height: headerHeight, opacity, y, zIndex: 5 }}
     >
       <div
         className="absolute left-1/2"
@@ -112,7 +113,7 @@ export function ArtistHeader({ images, name, subtitle, link, onLayout }: ArtistH
         {link && (
           <DeezerAttribution
             href={link}
-            label={t('common.openOnDeezer')}
+            label={t('common.openOn')}
             className="mt-4 pointer-events-auto"
           />
         )}

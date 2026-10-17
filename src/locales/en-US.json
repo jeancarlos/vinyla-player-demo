@@ -6,6 +6,11 @@
     "languageSwitcher": "Language switcher",
     "sourceCode": "Source code"
   },
+  "welcome": {
+    "hint": "Search artists, albums and playlists and hear 30-second previews.",
+    "tag": "Portfolio project.",
+    "button": "Get started"
+  },
   "home": {
     "popular": "Popular",
     "recentlyPlayed": "Recently Played",
@@ -37,7 +42,7 @@
     "error": "Something went wrong",
     "back": "Back",
     "poweredByDeezer": "Music data and previews by Deezer",
-    "openOnDeezer": "Open on Deezer",
+    "openOn": "Open on",
     "skipToContent": "Skip to main content",
     "list": "List",
     "table": "Table",

@@ -4,7 +4,7 @@ import { useToast } from '@/components/ui/toast'
 import { useTranslation } from 'react-i18next'
 import { useFavorites } from '@/hooks/useFavorites'
 import { cn } from '@/lib/utils'
-import { ControlTip } from './PlaybackControls'
+import { Tooltip } from '@/components/shared/Tooltip'
 
 export function FavoriteButton() {
   const { state } = usePlayer()
@@ -28,7 +28,10 @@ export function FavoriteButton() {
   }
 
   return (
-    <div className="relative group shrink-0">
+    <Tooltip
+      content={isSaved ? t('favorites.removeFromList') : t('favorites.addToList')}
+      className="shrink-0"
+    >
       <button
         onClick={handleHeart}
         aria-label={isSaved ? t('favorites.removeFromList') : t('favorites.addToList')}
@@ -39,7 +42,6 @@ export function FavoriteButton() {
       >
         <Heart size={16} className={isSaved ? 'fill-current' : ''} />
       </button>
-      <ControlTip label={isSaved ? t('favorites.removeFromList') : t('favorites.addToList')} />
-    </div>
+    </Tooltip>
   )
 }

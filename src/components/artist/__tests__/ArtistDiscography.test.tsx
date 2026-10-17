@@ -37,4 +37,19 @@ describe('ArtistDiscography', () => {
     setup('table')
     expect(screen.getByRole('table')).toBeInTheDocument()
   })
+
+  it('shows skeleton rows instead of albums and pagination while loading', () => {
+    const { container } = render(
+      <ArtistDiscography
+        albums={[]}
+        isLoading
+        view="list"
+        onViewChange={vi.fn()}
+        onAlbumClick={vi.fn()}
+        pagination={{ page: 1, hasNext: true, onPrev: vi.fn(), onNext: vi.fn() }}
+      />
+    )
+    expect(container.querySelectorAll('.animate-pulse > div')).toHaveLength(10)
+    expect(screen.queryByRole('button', { name: /next|próxima|pagination/i })).toBeNull()
+  })
 })

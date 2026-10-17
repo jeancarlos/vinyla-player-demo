@@ -35,10 +35,6 @@ vi.mock('@/contexts/PlayerContext', () => ({
   usePlayer: () => ({ state: mockPlayerState }),
 }))
 
-vi.mock('@/components/layout/mini-player/PlaybackControls', () => ({
-  ControlTip: () => null,
-}))
-
 const mockFavorites = {
   tracks: [] as Track[],
   addTrack: vi.fn(() => true),

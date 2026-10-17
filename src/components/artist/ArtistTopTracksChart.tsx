@@ -66,14 +66,18 @@ interface BarShapeProps {
 }
 
 function RoundedBar({ x = 0, y = 0, width = 0, height = 0, fill, cursor }: BarShapeProps) {
-  if (width <= 2)
-    return <rect x={x} y={y} width={width} height={height} fill={fill} cursor={cursor} />
-  const r = Math.min(5, height / 2)
   return (
-    <path
-      d={`M${x},${y} L${x + width - r},${y} Q${x + width},${y} ${x + width},${y + r} L${x + width},${y + height - r} Q${x + width},${y + height} ${x + width - r},${y + height} L${x},${y + height} Z`}
+    <rect
+      x={x}
+      y={y}
+      width={width}
+      height={height}
+      rx={Math.min(width, height) / 2}
       fill={fill}
+      stroke="rgba(255,255,255,0.7)"
+      strokeWidth={1}
       cursor={cursor}
+      style={{ filter: 'drop-shadow(0 4px 10px rgba(255,107,74,0.22))' }}
     />
   )
 }

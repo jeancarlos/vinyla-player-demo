@@ -53,10 +53,10 @@ describe('TrackInfo', () => {
     expect(note).not.toHaveAttribute('tabindex')
     await user.tab()
     expect(note).toHaveFocus()
-    expect(screen.getByText('my note', { selector: 'span' })).toHaveAttribute('aria-hidden', 'true')
     expect(note.className).toContain('focus-visible:ring-2')
-    expect(screen.getByText('my note', { selector: 'span' }).className).toContain(
-      'group-focus-within/note:opacity-100'
+    expect(screen.getByRole('tooltip')).toHaveTextContent('my note')
+    expect(screen.getByRole('tooltip').className).toContain(
+      'group-focus-within/tooltip:opacity-100'
     )
   })
   it('opens the lyrics with Space on the title button', async () => {
@@ -144,7 +144,11 @@ describe('TrackInfo', () => {
   it('uses the album image as the cover', () => {
     current = {
       ...baseTrack,
-      album: { id: 'b', name: 'Album', images: [{ url: 'https://img.test/c.jpg', width: 96, height: 96 }] },
+      album: {
+        id: 'b',
+        name: 'Album',
+        images: [{ url: 'https://img.test/c.jpg', width: 96, height: 96 }],
+      },
     } as unknown as Track
     const { container } = render(
       <MemoryRouter>
