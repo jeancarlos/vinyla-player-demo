@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
@@ -48,12 +48,14 @@ export function Home() {
   const { arcRadius, arcBottom, arcDeg, showHint, hintTop } = useDiskLayout()
 
   const hasRecent = recentlyPlayed.data.length > 0
-  const popular = useChartTracks(!hasRecent)
+  const [tab, setTab] = useState<'recent' | 'popular'>('recent')
+  const showRecent = hasRecent && tab === 'recent'
+  const popular = useChartTracks(!showRecent)
   const randomPopular = useMemo(
     () => shuffled((popular.data?.items ?? []).filter(isPlayable)).slice(0, MAX_CAROUSEL_TRACKS),
     [popular.data]
   )
-  const tracks = hasRecent ? recentlyPlayed.data.slice(0, MAX_CAROUSEL_TRACKS) : randomPopular
+  const tracks = showRecent ? recentlyPlayed.data.slice(0, MAX_CAROUSEL_TRACKS) : randomPopular
 
   const handleSearch = useCallback(
     (query: string, tab: SearchTab) => {
@@ -82,7 +84,19 @@ export function Home() {
           radius={arcRadius}
           arcDeg={arcDeg}
           baseDelay={DISK_ENTRY_DELAY_S}
-          title={hasRecent ? t('home.recentlyPlayed') : t('home.popular')}
+          title={hasRecent ? undefined : t('home.popular')}
+          tabs={
+            hasRecent
+              ? [
+                  { id: 'recent', label: t('home.recentlyPlayed') },
+                  { id: 'popular', label: t('home.popular') },
+                ]
+              : undefined
+          }
+          activeTab={tab}
+          onTab={(id) => {
+            setTab(id as 'recent' | 'popular')
+          }}
         />
       </div>
     )

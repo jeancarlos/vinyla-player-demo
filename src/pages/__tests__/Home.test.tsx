@@ -130,7 +130,7 @@ describe('Página Home', () => {
   it('shows recently played and skips the chart when there is history', async () => {
     renderHome()
     expect(await screen.findByText('Mock Track 1')).toBeInTheDocument()
-    expect(screen.queryByText(/home\.popular/i)).toBeNull()
+    expect(screen.queryByText(/^Popular \d$/)).toBeNull()
     expect(useChartTracks).toHaveBeenLastCalledWith(false)
   })
 
