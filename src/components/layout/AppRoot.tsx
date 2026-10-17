@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { useCatalogHealth } from '@/hooks/useCatalogHealth'
@@ -7,7 +7,11 @@ import { LyricsPreloader } from './LyricsPreloader'
 import { QueryErrorHandler } from './QueryErrorHandler'
 import { MiniPlayer } from './MiniPlayer'
 
+const HIDE_PLAYER_ROUTES = ['/welcome']
+
 export function AppRoot() {
+  const { pathname } = useLocation()
+  const showPlayer = !HIDE_PLAYER_ROUTES.includes(pathname)
   const { t } = useTranslation()
   const { unavailable } = useCatalogHealth()
 
@@ -25,7 +29,7 @@ export function AppRoot() {
       )}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
-          key="app"
+          key={showPlayer ? 'app' : pathname}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -36,9 +40,7 @@ export function AppRoot() {
         </motion.div>
       </AnimatePresence>
       <PersistentVinylDisk />
-      <AnimatePresence>
-        <MiniPlayer key="mini-player" />
-      </AnimatePresence>
+      <AnimatePresence>{showPlayer && <MiniPlayer key="mini-player" />}</AnimatePresence>
     </>
   )
 }

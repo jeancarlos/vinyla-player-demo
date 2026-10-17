@@ -24,10 +24,18 @@ export function arcCardTop(diskPx: number, viewportWidth: number, viewportHeight
 // ponytail: floors at 300 px, so very short landscape phones can still overlap; shrink the cards too if that matters
 export function homeDiskPx(viewportWidth: number, viewportHeight = Infinity): number {
   let px = Math.min(MAX_DISK_PX, viewportWidth)
-  while (px > MIN_DISK_PX && arcCardTop(px, viewportWidth, viewportHeight) < SEARCH_CLEARANCE) px -= 10
+  while (px > MIN_DISK_PX && arcCardTop(px, viewportWidth, viewportHeight) < SEARCH_CLEARANCE)
+    px -= 10
   return px
 }
 
 export function homeDiskOffset(viewportWidth: number, viewportHeight = Infinity): number {
   return offsetFor(homeDiskPx(viewportWidth, viewportHeight), viewportWidth)
+}
+
+const WELCOME_LIFT = 0.1
+
+export function welcomeDiskOffset(viewportWidth: number, viewportHeight = Infinity): number {
+  const lift = Math.round(homeDiskPx(viewportWidth, viewportHeight) * WELCOME_LIFT)
+  return Math.max(0, homeDiskOffset(viewportWidth, viewportHeight) - lift)
 }

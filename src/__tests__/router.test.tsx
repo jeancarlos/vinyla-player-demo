@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import type * as RouterDom from 'react-router-dom'
 import { createMemoryRouter, RouterProvider, type RouteObject } from 'react-router-dom'
@@ -17,6 +17,7 @@ vi.mock('@/pages/Artists', () => ({ Artists: () => <p>page-artists</p> }))
 vi.mock('@/pages/ArtistDetail', () => ({ ArtistDetail: () => <p>page-artist-detail</p> }))
 vi.mock('@/pages/AlbumDetail', () => ({ AlbumDetail: () => <p>page-album-detail</p> }))
 vi.mock('@/pages/PlaylistDetail', () => ({ PlaylistDetail: () => <p>page-playlist-detail</p> }))
+vi.mock('@/pages/Welcome', () => ({ Welcome: () => <p>page-welcome</p> }))
 vi.mock('@/pages/Favorites', () => ({ Favorites: () => <p>page-favorites</p> }))
 vi.mock('react-router-dom', async (importOriginal) => {
   const actual = await importOriginal<typeof RouterDom>()
@@ -38,9 +39,24 @@ describe('router', () => {
     ['/nope', 'page-home'],
   ]
 
+  beforeEach(() => {
+    localStorage.setItem('spoter_welcomed_v1', '1')
+  })
+
+  it('sends a first visit from / to the welcome screen', async () => {
+    localStorage.removeItem('spoter_welcomed_v1')
+    const { router } = await import('../router')
+    const memory = createMemoryRouter(router as unknown as RouteObject[], { initialEntries: ['/'] })
+    render(<RouterProvider router={memory} />)
+    expect(await screen.findByText('page-welcome')).toBeInTheDocument()
+    expect(memory.state.location.pathname).toBe('/welcome')
+  })
+
   it.each(cases)('routes %s', async (path, text) => {
     const { router } = await import('../router')
-    const memory = createMemoryRouter(router as unknown as RouteObject[], { initialEntries: [path] })
+    const memory = createMemoryRouter(router as unknown as RouteObject[], {
+      initialEntries: [path],
+    })
     render(<RouterProvider router={memory} />)
     expect(await screen.findByText(text)).toBeInTheDocument()
   })

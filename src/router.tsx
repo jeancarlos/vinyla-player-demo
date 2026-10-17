@@ -1,10 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Suspense } from 'react'
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter, Navigate, redirect } from 'react-router-dom'
 import { AppRoot } from '@/components/layout/AppRoot'
 import { AppShell } from '@/components/layout/AppShell'
 import { PlayerView } from '@/components/layout/PlayerView'
 import { lazyWithRetry } from '@/utils/lazyWithRetry'
+import { STORAGE_KEYS } from '@/lib/storageKeys'
+import { Welcome } from '@/pages/Welcome'
 
 const Home = lazyWithRetry(
   async () => import('@/pages/Home').then((m) => ({ default: m.Home })),
@@ -31,6 +33,14 @@ const Favorites = lazyWithRetry(
   'Favorites'
 )
 
+const welcomeGate = () => {
+  try {
+    return localStorage.getItem(STORAGE_KEYS.welcomed) ? null : redirect('/welcome')
+  } catch {
+    return null
+  }
+}
+
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-screen bg-white">
     <div className="w-8 h-8 border-4 border-primary rounded-full border-t-transparent animate-spin" />
@@ -45,6 +55,7 @@ export const router = createBrowserRouter([
   {
     element: <AppRoot />,
     children: [
+      { path: '/welcome', element: <Welcome /> },
       {
         path: '/player',
         element: <PlayerView />,
@@ -53,7 +64,7 @@ export const router = createBrowserRouter([
         path: '/',
         element: <AppShell />,
         children: [
-          { index: true, element: withSuspense(<Home />) },
+          { index: true, loader: welcomeGate, element: withSuspense(<Home />) },
           { path: 'artists', element: withSuspense(<Artists />) },
           { path: 'artists/:id', element: withSuspense(<ArtistDetail />) },
           { path: 'albums/:id', element: withSuspense(<AlbumDetail />) },

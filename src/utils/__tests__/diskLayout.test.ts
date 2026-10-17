@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { arcCardTop, homeDiskOffset, homeDiskPx } from '../diskLayout'
+import { arcCardTop, homeDiskOffset, homeDiskPx, welcomeDiskOffset } from '../diskLayout'
 
 const MINI_PLAYER_TOP = 80
 
@@ -19,12 +19,31 @@ describe('homeDiskOffset', () => {
   })
 
   it('shrinks the disk on short screens so the arc clears the search bar', () => {
-    for (const [vw, vh] of [[900, 640], [1280, 720], [1366, 768], [390, 667], [360, 640], [1920, 1080]])
+    for (const [vw, vh] of [
+      [900, 640],
+      [1280, 720],
+      [1366, 768],
+      [390, 667],
+      [360, 640],
+      [1920, 1080],
+    ])
       expect(arcCardTop(homeDiskPx(vw, vh), vw, vh)).toBeGreaterThanOrEqual(127)
   })
 
   it('keeps the full size when there is room', () => {
     expect(homeDiskPx(1920, 1080)).toBe(720)
     expect(homeDiskPx(390, 844)).toBe(390)
+  })
+})
+
+describe('welcomeDiskOffset', () => {
+  it('sits higher than home so the disk drops down on entry', () => {
+    for (const [vw, vh] of [
+      [1280, 800],
+      [390, 844],
+    ]) {
+      expect(welcomeDiskOffset(vw, vh)).toBeLessThan(homeDiskOffset(vw, vh))
+      expect(welcomeDiskOffset(vw, vh)).toBeGreaterThanOrEqual(0)
+    }
   })
 })
