@@ -129,7 +129,10 @@ function PlayCell({ trackName, index, theme: styles, onPlay, track }: PlayCellPr
       {index !== undefined ? (
         <>
           <span className={styles.number}>{String(index + 1).padStart(2, '0')}</span>
-          <Play size={12} className={cn('hidden group-hover:block group-focus-within:block', styles.icon)} />
+          <Play
+            size={12}
+            className={cn('hidden group-hover:block group-focus-within:block', styles.icon)}
+          />
         </>
       ) : (
         <Play size={12} className={styles.icon} />

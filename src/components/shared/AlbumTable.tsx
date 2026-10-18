@@ -63,7 +63,9 @@ export function AlbumTable({ albums, onClick }: AlbumTableProps) {
                   {album.name}
                 </button>
               </td>
-              <td className="py-2 px-3 text-black/60 capitalize">{albumTypeLabel(t, album.album_type)}</td>
+              <td className="py-2 px-3 text-black/60 capitalize">
+                {albumTypeLabel(t, album.album_type)}
+              </td>
               <td className="py-2 px-3 text-right text-black/60 tabular-nums">
                 {album.release_date ? formatDate(album.release_date, 'year') : ''}
               </td>

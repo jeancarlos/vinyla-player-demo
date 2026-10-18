@@ -130,9 +130,7 @@ export function CollectionHeader({
           )}
           {year ? ` · ${year}` : ''}
         </p>
-        {link && (
-          <DeezerAttribution href={link} label={t('common.openOn')} className="mt-4" />
-        )}
+        {link && <DeezerAttribution href={link} label={t('common.openOn')} className="mt-4" />}
         <button
           onClick={onPlay}
           className={cn(

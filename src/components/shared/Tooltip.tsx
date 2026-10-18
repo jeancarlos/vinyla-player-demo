@@ -59,7 +59,7 @@ export function Tooltip({
 
   const style = placement
     ? ({
-        translate: `${placement.shift}px 0`,
+        transform: `translateX(${placement.shift}px)`,
         '--tt-tail': `${placement.tail - 4}px`,
       } as CSSProperties)
     : undefined

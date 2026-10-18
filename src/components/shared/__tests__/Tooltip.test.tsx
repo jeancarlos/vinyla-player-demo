@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Tooltip } from '../Tooltip'
@@ -64,5 +64,29 @@ describe('Tooltip', () => {
     const tip = screen.getByRole('tooltip')
     expect(tip).toHaveTextContent('Texto de ajuda')
     expect(tip.className).toContain('group-focus-within/tooltip:opacity-100')
+  })
+
+  it('slides with transform so the centering translate utility is kept', async () => {
+    const width = vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(200)
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+      left: 0,
+      right: 20,
+      top: 100,
+      bottom: 120,
+      width: 20,
+      height: 20,
+    } as DOMRect)
+    render(
+      <Tooltip content="Nota">
+        <button>edge</button>
+      </Tooltip>
+    )
+    await userEvent.hover(screen.getByText('edge'))
+    const tip = screen.getByRole('tooltip')
+    expect(tip.style.transform).toBe('translateX(98px)')
+    expect(tip.style.translate).toBe('')
+    expect(tip.className).toContain('-translate-x-1/2')
+    width.mockRestore()
+    vi.restoreAllMocks()
   })
 })
