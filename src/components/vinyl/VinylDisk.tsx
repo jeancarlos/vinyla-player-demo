@@ -29,8 +29,8 @@ export function VinylDisk({
   const { t } = useTranslation()
 
   const transition = isPlaying
-    ? { duration: 8, ease: 'linear', repeat: Infinity }
-    : { duration: 1.2, ease: 'easeOut' }
+    ? { duration: 8, ease: 'linear' as const, repeat: Infinity }
+    : { duration: 1.2, ease: 'easeOut' as const }
 
   const animation = { rotate: isPlaying ? 360 : 0 }
 

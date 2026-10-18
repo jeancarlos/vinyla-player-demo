@@ -4,7 +4,14 @@ import { ArtistDiscography } from '../ArtistDiscography'
 import type { AlbumSimple } from '@/types/music'
 
 const albums = [
-  { id: '1', name: 'One', album_type: 'album', release_date: '2020-05-01', images: [{ url: 'u' }], artists: [] },
+  {
+    id: '1',
+    name: 'One',
+    album_type: 'album',
+    release_date: '2020-05-01',
+    images: [{ url: 'u' }],
+    artists: [],
+  },
   { id: '2', name: 'Two', album_type: 'single', release_date: '', images: [], artists: [] },
 ] as unknown as AlbumSimple[]
 

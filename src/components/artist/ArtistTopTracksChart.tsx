@@ -7,7 +7,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Cell,
   LabelList,
   ResponsiveContainer,
 } from 'recharts'
@@ -63,9 +62,28 @@ interface BarShapeProps {
   height?: number
   fill?: string
   cursor?: string
+  index?: number
+  payload?: ChartEntry
+  activeTrackId?: string
 }
 
-function RoundedBar({ x = 0, y = 0, width = 0, height = 0, fill, cursor }: BarShapeProps) {
+function RoundedBar({
+  x = 0,
+  y = 0,
+  width = 0,
+  height = 0,
+  fill,
+  cursor,
+  index = 0,
+  payload,
+  activeTrackId,
+}: BarShapeProps) {
+  const own = payload
+    ? {
+        fill: barFill(payload.id, index, activeTrackId),
+        cursor: isPlayable(payload.track) ? 'pointer' : 'default',
+      }
+    : { fill, cursor }
   return (
     <rect
       x={x}
@@ -73,10 +91,10 @@ function RoundedBar({ x = 0, y = 0, width = 0, height = 0, fill, cursor }: BarSh
       width={width}
       height={height}
       rx={Math.min(width, height) / 2}
-      fill={fill}
+      fill={own.fill}
       stroke="rgba(255,255,255,0.7)"
       strokeWidth={1}
-      cursor={cursor}
+      cursor={own.cursor}
       style={{ filter: 'drop-shadow(0 4px 10px rgba(255,107,74,0.22))' }}
     />
   )
@@ -112,30 +130,21 @@ export function ArtistTopTracksChart({ tracks, activeTrackId, onPlay }: Props) {
 
             <Bar
               dataKey="rank"
-              shape={<RoundedBar />}
+              shape={<RoundedBar activeTrackId={activeTrackId} />}
               maxBarSize={28}
               isAnimationActive
               animationDuration={700}
               animationEasing="ease-out"
-              onClick={(entry: ChartEntry) => {
-                playEntry(entry, onPlay)
+              onClick={(bar) => {
+                playEntry(bar.payload as ChartEntry, onPlay)
               }}
             >
               <LabelList
                 dataKey="rank"
                 position="right"
-                formatter={(n: number) => n.toLocaleString(i18n.language)}
+                formatter={(n) => Number(n).toLocaleString(i18n.language)}
                 style={{ fontSize: 12, fill: 'rgba(0,0,0,0.6)', fontWeight: 700 }}
               />
-              {chartData.map((entry, i) => {
-                return (
-                  <Cell
-                    key={entry.id}
-                    fill={barFill(entry.id, i, activeTrackId)}
-                    cursor={isPlayable(entry.track) ? 'pointer' : 'default'}
-                  />
-                )
-              })}
             </Bar>
           </BarChart>
         </ResponsiveContainer>

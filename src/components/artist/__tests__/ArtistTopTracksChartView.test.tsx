@@ -10,10 +10,14 @@ vi.mock('recharts', () => ({
   CartesianGrid: () => null,
   XAxis: () => null,
   Tooltip: () => null,
-  Cell: () => null,
   YAxis: ({ tick }: { tick: ReactElement<Record<string, unknown>> }) => (
     <svg data-testid="ticks">
-      {cloneElement(tick, { x: 1, y: 2, index: 0, payload: { value: 'A very long track name here' } })}
+      {cloneElement(tick, {
+        x: 1,
+        y: 2,
+        index: 0,
+        payload: { value: 'A very long track name here' },
+      })}
       {cloneElement(tick, { payload: { value: 'Short' } })}
       {cloneElement(tick, {})}
     </svg>
@@ -35,8 +39,15 @@ vi.mock('recharts', () => ({
         {cloneElement(shape, { x: 0, y: 0, width: 1, height: 10, fill: 'red' })}
         {cloneElement(shape, { width: 50, height: 4, fill: 'red', cursor: 'pointer' })}
         {cloneElement(shape, {})}
+        {cloneElement(shape, { index: 1, payload: { id: 'a', track: bars.track } })}
+        {cloneElement(shape, { index: 2, payload: { id: 'b', track: { is_playable: false } } })}
       </svg>
-      <button data-testid="bar" onClick={() => { onClick({ track: bars.track, id: 'x' }) }} />
+      <button
+        data-testid="bar"
+        onClick={() => {
+          onClick({ payload: { track: bars.track, id: 'x' } })
+        }}
+      />
       {children}
     </div>
   ),
@@ -64,13 +75,17 @@ describe('ArtistTopTracksChart', () => {
     const onPlay = vi.fn()
     const ok = mk('a', 10)
     bars.track = ok
-    render(<ArtistTopTracksChart tracks={[ok, mk('b', 5, false)]} activeTrackId="a" onPlay={onPlay} />)
+    render(
+      <ArtistTopTracksChart tracks={[ok, mk('b', 5, false)]} activeTrackId="a" onPlay={onPlay} />
+    )
     expect(screen.getByTestId('ticks').querySelectorAll('text').length).toBeGreaterThan(3)
-    expect(screen.getByTestId('shapes').querySelectorAll('rect,path')).toHaveLength(3)
+    expect(screen.getByTestId('shapes').querySelectorAll('rect,path')).toHaveLength(5)
     expect(screen.getByTestId('label')).toHaveTextContent((1234567).toLocaleString('pt-BR'))
     fireEvent.click(screen.getByTestId('bar'))
     expect(onPlay).toHaveBeenCalledTimes(1)
-    const buttons = screen.getAllByRole('button', { hidden: true }).filter((b) => b.hasAttribute('type'))
+    const buttons = screen
+      .getAllByRole('button', { hidden: true })
+      .filter((b) => b.hasAttribute('type'))
     expect(buttons).toHaveLength(2)
     expect(buttons[1]).toBeDisabled()
     fireEvent.click(buttons[0])

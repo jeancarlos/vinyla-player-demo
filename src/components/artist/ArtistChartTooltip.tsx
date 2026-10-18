@@ -1,9 +1,12 @@
 import { useTranslation } from 'react-i18next'
 import { pickImage, srcSetOf } from '@/lib/utils'
-import type { TooltipProps } from 'recharts'
+import type { TooltipContentProps } from 'recharts'
 import type { ChartEntry } from './chartData'
 
-export function CustomTooltip({ active, payload }: TooltipProps<number, string>) {
+export function CustomTooltip({
+  active,
+  payload,
+}: Partial<Pick<TooltipContentProps<number, string>, 'active' | 'payload'>>) {
   const { t, i18n } = useTranslation()
   if (!active || !payload?.[0]) return null
   const e = payload[0].payload as ChartEntry
