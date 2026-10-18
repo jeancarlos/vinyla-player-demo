@@ -37,7 +37,9 @@ describe('playerReducer', () => {
   })
 
   it('SET_LOADING sets isLoading', () => {
-    expect(playerReducer(initialPlayerState, { type: 'SET_LOADING', payload: true }).isLoading).toBe(true)
+    expect(
+      playerReducer(initialPlayerState, { type: 'SET_LOADING', payload: true }).isLoading
+    ).toBe(true)
   })
 
   it('SET_SHUFFLE sets shuffle directly', () => {
@@ -48,11 +50,15 @@ describe('playerReducer', () => {
   })
 
   it('SET_REPEAT sets repeat', () => {
-    expect(playerReducer(initialPlayerState, { type: 'SET_REPEAT', payload: 'track' }).repeat).toBe('track')
+    expect(playerReducer(initialPlayerState, { type: 'SET_REPEAT', payload: 'track' }).repeat).toBe(
+      'track'
+    )
   })
 
   it('SET_QUEUE stores the queue', () => {
-    expect(playerReducer(initialPlayerState, { type: 'SET_QUEUE', payload: [mockTrack] }).queue).toHaveLength(1)
+    expect(
+      playerReducer(initialPlayerState, { type: 'SET_QUEUE', payload: [mockTrack] }).queue
+    ).toHaveLength(1)
   })
 
   it('SET_QUEUE_INDEX stores the index of the playing track', () => {

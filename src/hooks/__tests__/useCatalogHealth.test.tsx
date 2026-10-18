@@ -87,7 +87,10 @@ describe('useCatalogHealth', () => {
   it('ignores background Deezer queries', async () => {
     const { client, result } = setup()
     for (const key of ['a', 'b', 'c'])
-      await fail(client, key, new DeezerError(-1, 'timeout'), { source: 'deezer', background: true })
+      await fail(client, key, new DeezerError(-1, 'timeout'), {
+        source: 'deezer',
+        background: true,
+      })
     expect(result.current.unavailable).toBe(false)
   })
 })

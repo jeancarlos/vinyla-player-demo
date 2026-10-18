@@ -63,7 +63,7 @@ describe('Tooltip', () => {
     expect(screen.getByText('Foco')).toHaveFocus()
     const tip = screen.getByRole('tooltip')
     expect(tip).toHaveTextContent('Texto de ajuda')
-    expect(tip.className).toContain('group-focus-within/tooltip:opacity-100')
+    expect(tip.className).toContain('group-has-[:focus-visible]/tooltip:opacity-100')
   })
 
   it('slides with transform so the centering translate utility is kept', async () => {

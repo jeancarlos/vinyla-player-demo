@@ -1,5 +1,10 @@
 const LEGACY_KEYS = ['access_token', 'refresh_token', 'user_profile', 'pkce_verifier', 'pkce_state']
-const LEGACY_PREFIXES = ['spoter_favorites_', 'spoter_fav_notes_', 'spoter_playlist_', 'spoter_cover_v2_']
+const LEGACY_PREFIXES = [
+  'spoter_favorites_',
+  'spoter_fav_notes_',
+  'spoter_playlist_',
+  'spoter_cover_v2_',
+]
 const VERSIONED_KEY = /_v\d+$/
 const LEGACY_COOKIE_PREFIX = 'spoter_fav_v1_'
 
@@ -13,7 +18,9 @@ function removeLegacyStorageKeys(): void {
       const store = window[name]
       Object.keys(store)
         .filter(isLegacyKey)
-        .forEach((key) => { store.removeItem(key); })
+        .forEach((key) => {
+          store.removeItem(key)
+        })
     } catch {
       continue
     }

@@ -67,9 +67,7 @@ export function VinylDisk({
           </div>
         </div>
       </div>
-      {favoriteLabel && px >= 180 && (
-        <ArcTextOverlay label={favoriteLabel} diskPx={renderedPx} />
-      )}
+      {favoriteLabel && px >= 180 && <ArcTextOverlay label={favoriteLabel} diskPx={renderedPx} />}
     </div>
   )
 }

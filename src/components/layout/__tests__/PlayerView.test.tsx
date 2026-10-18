@@ -11,12 +11,18 @@ let lyricsResult: object = { isPending: false, isLoading: false, data: ['la'] }
 vi.mock('@/hooks/queries/useLyrics', () => ({
   useLyrics: () => lyricsResult,
 }))
-vi.mock('@/components/layout/LyricsView', () => ({ LyricsView: (p: { lines: string[] }) => {
+vi.mock('@/components/layout/LyricsView', () => ({
+  LyricsView: (p: { lines: string[] }) => {
     lyricsSpy(p.lines)
     return <div data-testid="lyrics-view" />
-  } }))
-vi.mock('@/components/layout/TrackInfoPanel', () => ({ TrackInfoPanel: () => <div data-testid="info-panel" /> }))
-vi.mock('@/components/layout/PlayerQueue', () => ({ PlayerQueue: () => <div data-testid="queue-panel" /> }))
+  },
+}))
+vi.mock('@/components/layout/TrackInfoPanel', () => ({
+  TrackInfoPanel: () => <div data-testid="info-panel" />,
+}))
+vi.mock('@/components/layout/PlayerQueue', () => ({
+  PlayerQueue: () => <div data-testid="queue-panel" />,
+}))
 vi.mock('@/contexts/PlayerContext', async (orig) => ({
   ...(await orig<Record<string, unknown>>()),
   useProgress: () => {
@@ -26,7 +32,9 @@ vi.mock('@/contexts/PlayerContext', async (orig) => ({
 
 function Probe() {
   const l = useLocation()
-  return <output data-testid="loc">{JSON.stringify({ p: l.pathname + l.search, s: l.state })}</output>
+  return (
+    <output data-testid="loc">{JSON.stringify({ p: l.pathname + l.search, s: l.state })}</output>
+  )
 }
 
 function setup(withTrack = true) {
@@ -39,8 +47,19 @@ function setup(withTrack = true) {
   } as unknown as Track
   const controls = { seek: vi.fn() }
   render(
-    <MemoryRouter initialEntries={[{ pathname: '/player', search: '?tab=lyrics', state: { from: '/playlists/9?page=2' } }]}>
-      <PlayerContext.Provider value={{ state: { ...initialPlayerState, currentTrack: withTrack ? track : null }, controls } as never}>
+    <MemoryRouter
+      initialEntries={[
+        { pathname: '/player', search: '?tab=lyrics', state: { from: '/playlists/9?page=2' } },
+      ]}
+    >
+      <PlayerContext.Provider
+        value={
+          {
+            state: { ...initialPlayerState, currentTrack: withTrack ? track : null },
+            controls,
+          } as never
+        }
+      >
         <Routes>
           <Route path="/player" element={<PlayerView />} />
           <Route path="*" element={null} />
@@ -96,7 +115,9 @@ describe('PlayerView panes', () => {
   const mount = (track: Track | null, search = '', state?: object) =>
     render(
       <MemoryRouter initialEntries={[{ pathname: '/player', search, state }]}>
-        <PlayerContext.Provider value={{ state: { ...initialPlayerState, currentTrack: track }, controls: {} } as never}>
+        <PlayerContext.Provider
+          value={{ state: { ...initialPlayerState, currentTrack: track }, controls: {} } as never}
+        >
           <Routes>
             <Route path="/player" element={<PlayerView />} />
             <Route path="*" element={<Probe />} />
@@ -113,10 +134,7 @@ describe('PlayerView panes', () => {
   })
 
   it('omits the cover and falls back to empty fields without artist or art', async () => {
-    const { container } = mount(
-      mk({ artists: [], album: { name: 'B', images: [] } }),
-      '?tab=queue'
-    )
+    const { container } = mount(mk({ artists: [], album: { name: 'B', images: [] } }), '?tab=queue')
     expect(await screen.findByTestId('queue-panel')).toBeInTheDocument()
     expect(container.innerHTML).not.toContain('blur(100px)')
   })

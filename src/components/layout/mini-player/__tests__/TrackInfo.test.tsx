@@ -56,7 +56,7 @@ describe('TrackInfo', () => {
     expect(note.className).toContain('focus-visible:ring-2')
     expect(screen.getByRole('tooltip')).toHaveTextContent('my note')
     expect(screen.getByRole('tooltip').className).toContain(
-      'group-focus-within/tooltip:opacity-100'
+      'group-has-[:focus-visible]/tooltip:opacity-100'
     )
   })
   it('opens the lyrics with Space on the title button', async () => {

@@ -75,7 +75,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     audio.pause()
     audio.removeAttribute('src')
     audio.load()
-    stateRef.current = { ...stateRef.current, queue, queueIndex: index, currentTrack: track, isLoading: true }
+    stateRef.current = {
+      ...stateRef.current,
+      queue,
+      queueIndex: index,
+      currentTrack: track,
+      isLoading: true,
+    }
     dispatch({ type: 'SET_PLAYING', payload: false })
     dispatch({ type: 'SET_QUEUE', payload: queue })
     dispatch({ type: 'SET_QUEUE_INDEX', payload: index })
@@ -153,7 +159,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     const request = requestRef.current
     audio.play().catch((error: unknown) => {
       if (request !== requestRef.current) return
-      if (error instanceof DOMException && ['AbortError', 'NotAllowedError'].includes(error.name)) return
+      if (error instanceof DOMException && ['AbortError', 'NotAllowedError'].includes(error.name))
+        return
       void startAt(queue, queueIndex, audio.currentTime)
     })
   }, [startAt, stop])
@@ -217,7 +224,8 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       ['nexttrack', next],
       ['previoustrack', previous],
     ]
-    for (const [action, handler] of handlers) navigator.mediaSession.setActionHandler(action, handler)
+    for (const [action, handler] of handlers)
+      navigator.mediaSession.setActionHandler(action, handler)
   }, [toggle, next, previous])
 
   const { currentTrack } = state

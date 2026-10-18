@@ -84,7 +84,9 @@ describe('LyricsPreloader', () => {
         <LyricsPreloader />
       </QueryClientProvider>
     )
-    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue(new Response('{}', { status: 404 }))
+    const fetchSpy = vi
+      .spyOn(globalThis, 'fetch')
+      .mockResolvedValue(new Response('{}', { status: 404 }))
     const queryFn = (spy.mock.calls[0][0] as unknown as { queryFn: () => Promise<unknown> }).queryFn
     await expect(queryFn()).resolves.toEqual([])
     expect(fetchSpy).toHaveBeenCalledTimes(1)

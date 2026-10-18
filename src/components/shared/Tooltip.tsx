@@ -86,8 +86,8 @@ export function Tooltip({
           'scale-50 opacity-0 translate-y-1 data-[side=bottom]:-translate-y-1',
           'transition duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)]',
           'group-hover/tooltip:scale-100 group-hover/tooltip:translate-y-0 group-hover/tooltip:opacity-100',
-          'group-focus-within/tooltip:scale-100 group-focus-within/tooltip:translate-y-0 group-focus-within/tooltip:opacity-100',
-          'group-focus-within/tipfocus:scale-100 group-focus-within/tipfocus:translate-y-0 group-focus-within/tipfocus:opacity-100',
+          'group-has-[:focus-visible]/tooltip:scale-100 group-has-[:focus-visible]/tooltip:translate-y-0 group-has-[:focus-visible]/tooltip:opacity-100',
+          'group-has-[:focus-visible]/tipfocus:scale-100 group-has-[:focus-visible]/tipfocus:translate-y-0 group-has-[:focus-visible]/tipfocus:opacity-100',
           'motion-reduce:transition-opacity motion-reduce:scale-100 motion-reduce:translate-y-0',
           ALIGN[align],
           widthClass

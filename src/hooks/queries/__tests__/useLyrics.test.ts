@@ -7,7 +7,13 @@ afterEach(() => vi.unstubAllGlobals())
 
 describe('lyricsKey', () => {
   it('includes the cleaned title and the album', () => {
-    expect(lyricsKey({ ...params, title: 'T - Remastered 2011' })).toEqual(['lyrics', 'A', 'T', 1000, 'Al'])
+    expect(lyricsKey({ ...params, title: 'T - Remastered 2011' })).toEqual([
+      'lyrics',
+      'A',
+      'T',
+      1000,
+      'Al',
+    ])
   })
 
   it('differs per album', () => {
@@ -49,10 +55,7 @@ describe('fetchLyrics', () => {
   })
 
   it('parses synced lyrics', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue(okJson({ syncedLyrics: '[00:01.00]hi' }))
-    )
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(okJson({ syncedLyrics: '[00:01.00]hi' })))
     await expect(fetchLyrics(params)).resolves.toEqual(['hi'])
   })
 
@@ -65,10 +68,7 @@ describe('fetchLyrics', () => {
   })
 
   it('returns plain lyrics without a track duration', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue(okJson({ plainLyrics: 'one\ntwo' }))
-    )
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(okJson({ plainLyrics: 'one\ntwo' })))
     await expect(fetchLyrics({ ...params, durationMs: undefined })).resolves.toEqual(['one', 'two'])
   })
 })

@@ -19,7 +19,9 @@ const setup = () => {
 }
 
 const fail = (client: QueryClient, key: string) =>
-  client.query({ queryKey: [key], queryFn: () => Promise.reject(new Error('x')) }).catch(() => undefined)
+  client
+    .query({ queryKey: [key], queryFn: () => Promise.reject(new Error('x')) })
+    .catch(() => undefined)
 const succeed = (client: QueryClient, key: string) =>
   client.query({ queryKey: [key], queryFn: () => Promise.resolve(1), staleTime: 0 })
 
@@ -36,17 +38,49 @@ async function run(steps: Step[]) {
 
 describe('QueryErrorHandler', () => {
   it.each<[string, Step[], number]>([
-    ['toasts once when the same query keeps failing', [['fail', 'a'], ['fail', 'a'], ['fail', 'a']], 1],
-    ['toasts once for several queries failing in one episode', [['fail', 'a'], ['fail', 'b']], 1],
-    ['toasts again after every failing query has recovered', [['fail', 'a'], ['succeed', 'a'], ['fail', 'a']], 2],
+    [
+      'toasts once when the same query keeps failing',
+      [
+        ['fail', 'a'],
+        ['fail', 'a'],
+        ['fail', 'a'],
+      ],
+      1,
+    ],
+    [
+      'toasts once for several queries failing in one episode',
+      [
+        ['fail', 'a'],
+        ['fail', 'b'],
+      ],
+      1,
+    ],
+    [
+      'toasts again after every failing query has recovered',
+      [
+        ['fail', 'a'],
+        ['succeed', 'a'],
+        ['fail', 'a'],
+      ],
+      2,
+    ],
     [
       'does not end the episode while another query is still failing',
-      [['fail', 'a'], ['fail', 'b'], ['succeed', 'a'], ['fail', 'a']],
+      [
+        ['fail', 'a'],
+        ['fail', 'b'],
+        ['succeed', 'a'],
+        ['fail', 'a'],
+      ],
       1,
     ],
     [
       'toasts again when a failed query is garbage collected without recovering',
-      [['fail', 'a'], ['remove', 'a'], ['fail', 'b']],
+      [
+        ['fail', 'a'],
+        ['remove', 'a'],
+        ['fail', 'b'],
+      ],
       2,
     ],
   ])('%s', async (_name, steps, calls) => {
@@ -57,7 +91,11 @@ describe('QueryErrorHandler', () => {
   it('ignores background queries', async () => {
     const client = setup()
     await client
-      .query({ queryKey: ['bg'], meta: { background: true }, queryFn: () => Promise.reject(new Error('x')) })
+      .query({
+        queryKey: ['bg'],
+        meta: { background: true },
+        queryFn: () => Promise.reject(new Error('x')),
+      })
       .catch(() => undefined)
     expect(toast).not.toHaveBeenCalled()
   })

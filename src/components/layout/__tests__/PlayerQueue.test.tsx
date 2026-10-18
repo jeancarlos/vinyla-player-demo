@@ -52,7 +52,10 @@ describe('PlayerQueue', () => {
   })
 
   it('renders only a window of a long queue', () => {
-    renderQueue(Array.from({ length: 1000 }, (_, i) => mk(String(i))), 0)
+    renderQueue(
+      Array.from({ length: 1000 }, (_, i) => mk(String(i))),
+      0
+    )
     const rows = screen.getAllByText(/^Name /)
     expect(rows.length).toBeLessThan(50)
     expect(rows[0].textContent).toBe('Name 1')

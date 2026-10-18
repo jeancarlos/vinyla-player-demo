@@ -54,7 +54,9 @@ describe('useKeyboardNav', () => {
     const { opts, press } = setup({ results: [track, track] })
     press('ArrowDown')
     press('ArrowUp')
-    const [down, up] = vi.mocked(opts.setHighlightIndex).mock.calls.map(([fn]: unknown[]) => fn as (i: number) => number)
+    const [down, up] = vi
+      .mocked(opts.setHighlightIndex)
+      .mock.calls.map(([fn]: unknown[]) => fn as (i: number) => number)
     expect(down(0)).toBe(1)
     expect(down(1)).toBe(1)
     expect(up(1)).toBe(0)

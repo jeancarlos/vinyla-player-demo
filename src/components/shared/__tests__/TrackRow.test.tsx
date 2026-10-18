@@ -90,7 +90,7 @@ describe('TrackRow', () => {
     expect(play.className).toContain('focus-visible:ring-2')
     expect(play.closest('.group\\/tipfocus')).not.toBeNull()
     expect(screen.getByRole('tooltip').className).toContain(
-      'group-focus-within/tipfocus:opacity-100'
+      'group-has-[:focus-visible]/tipfocus:opacity-100'
     )
   })
 

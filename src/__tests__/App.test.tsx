@@ -10,7 +10,9 @@ vi.mock('@/lib/queryClient', async () => {
   const { QueryClient } = await import('@tanstack/react-query')
   return { queryClient: new QueryClient() }
 })
-vi.mock('@/contexts/UIContext', () => ({ UIProvider: ({ children }: { children: React.ReactNode }) => <>{children}</> }))
+vi.mock('@/contexts/UIContext', () => ({
+  UIProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+}))
 vi.mock('@/contexts/PlayerContext', () => ({
   PlayerProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }))

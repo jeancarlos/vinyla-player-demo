@@ -7,7 +7,9 @@ export function useRecentlyPlayed(limit: number): { data: Track[] } {
   const [data, setData] = useState<Track[]>(() => readRecent().slice(0, limit))
 
   useEffect(() => {
-    const refresh = () => { setData(readRecent().slice(0, limit)); }
+    const refresh = () => {
+      setData(readRecent().slice(0, limit))
+    }
     const onStorage = (e: StorageEvent) => {
       if (e.key === STORAGE_KEYS.recent || e.key === null) refresh()
     }

@@ -20,7 +20,11 @@ let albumResult: { data?: unknown; error?: unknown } = { data: undefined }
 vi.mock('@/hooks/queries/useAlbum', () => ({
   useAlbum: () => albumResult,
 }))
-const rest = Array.from({ length: 30 }, (_, i) => ({ id: `r${i}`, uri: `ur${i}`, preview_url: 'http://p/r' }))
+const rest = Array.from({ length: 30 }, (_, i) => ({
+  id: `r${i}`,
+  uri: `ur${i}`,
+  preview_url: 'http://p/r',
+}))
 const allTracks = [...tracks, ...rest] as unknown as Track[]
 
 let fullListFailed = false
@@ -36,7 +40,6 @@ vi.mock('@/hooks/queries/useAlbumTracks', () => ({
 }))
 
 const wrapper = ({ children }: { children: ReactNode }) => <MemoryRouter>{children}</MemoryRouter>
-
 
 function Probe() {
   return <p data-testid="probe">{JSON.stringify(useLocation().state)}</p>
@@ -78,7 +81,9 @@ describe('useAlbumDetailPage playback', () => {
     act(() => {
       result.current.handleArtistClick('ar1')
     })
-    expect(screen.getByTestId('probe').textContent).toBe(JSON.stringify({ from: '/albums/3?page=2' }))
+    expect(screen.getByTestId('probe').textContent).toBe(
+      JSON.stringify({ from: '/albums/3?page=2' })
+    )
   })
 })
 
@@ -103,7 +108,10 @@ describe('useAlbumDetailPage metadata', () => {
         name: 'Album',
         images: [{ url: 'u' }],
         release_date: '2020-05-01',
-        artists: [{ id: 'a', name: 'A' }, { id: 'b', name: 'B' }],
+        artists: [
+          { id: 'a', name: 'A' },
+          { id: 'b', name: 'B' },
+        ],
         link: 'http://l',
       },
     }

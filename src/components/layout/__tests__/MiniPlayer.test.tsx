@@ -13,7 +13,9 @@ vi.mock('@/contexts/PlayerContext', () => ({
 vi.mock('@/hooks/useFavorites', () => ({ useFavorites: () => ({ notes: {} }) }))
 vi.mock('../mini-player/ProgressBar', () => ({ ProgressBar: () => <i data-testid="progress" /> }))
 vi.mock('../mini-player/TrackInfo', () => ({ TrackInfo: () => <i data-testid="info" /> }))
-vi.mock('../mini-player/PlaybackControls', () => ({ PlaybackControls: () => <i data-testid="controls" /> }))
+vi.mock('../mini-player/PlaybackControls', () => ({
+  PlaybackControls: () => <i data-testid="controls" />,
+}))
 vi.mock('../mini-player/FavoriteButton', () => ({ FavoriteButton: () => <i data-testid="fav" /> }))
 
 describe('MiniPlayer', () => {

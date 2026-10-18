@@ -9,13 +9,13 @@ import { router } from '@/router'
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-        <UIProvider>
-          <PlayerProvider>
-            <ToastProvider>
-              <RouterProvider router={router} />
-            </ToastProvider>
-          </PlayerProvider>
-        </UIProvider>
+      <UIProvider>
+        <PlayerProvider>
+          <ToastProvider>
+            <RouterProvider router={router} />
+          </ToastProvider>
+        </PlayerProvider>
+      </UIProvider>
     </QueryClientProvider>
   )
 }

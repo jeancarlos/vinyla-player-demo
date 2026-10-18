@@ -10,7 +10,9 @@ const page = { items, offset: 0, limit: 1000, total: 1, href: '', next: null, pr
 function loader(query: Partial<UseQueryResult<PagingObject<Track>>>) {
   const refetch = query.refetch ?? vi.fn()
   const { result } = renderHook(() =>
-    useQueueLoader({ data: undefined, isError: false, ...query, refetch } as UseQueryResult<PagingObject<Track>>)
+    useQueueLoader({ data: undefined, isError: false, ...query, refetch } as UseQueryResult<
+      PagingObject<Track>
+    >)
   )
   return { load: result.current, refetch }
 }

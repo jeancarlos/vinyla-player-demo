@@ -22,14 +22,19 @@ function List({ limit }: { limit: number }) {
   return <div data-testid="recent-list">{data.map((t) => t.id).join(',')}</div>
 }
 
-const push = (id: string) => { pushRecent({ ...track, id, uri: `deezer:track:${id}` }); }
+const push = (id: string) => {
+  pushRecent({ ...track, id, uri: `deezer:track:${id}` })
+}
 
 const listText = () => screen.getByTestId('recent-list').textContent
-const storeRaw = (id: string) =>
-  { localStorage.setItem('spoter_recent_v1', JSON.stringify([{ ...track, id }])); }
+const storeRaw = (id: string) => {
+  localStorage.setItem('spoter_recent_v1', JSON.stringify([{ ...track, id }]))
+}
 
 describe('useRecentlyPlayed', () => {
-  beforeEach(() => { localStorage.clear(); })
+  beforeEach(() => {
+    localStorage.clear()
+  })
 
   it('reads initial recent tracks', () => {
     push('1')
@@ -46,7 +51,9 @@ describe('useRecentlyPlayed', () => {
   it('updates on spoter:recent-changed', () => {
     render(<List limit={10} />)
     expect(listText()).toBe('')
-    act(() => { push('3'); })
+    act(() => {
+      push('3')
+    })
     expect(listText()).toBe('3')
   })
 

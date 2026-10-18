@@ -23,7 +23,6 @@ vi.mock('@/hooks/queries/useArtistTopTracks', () => ({
 
 const wrapper = ({ children }: { children: ReactNode }) => <MemoryRouter>{children}</MemoryRouter>
 
-
 function Probe() {
   return <p data-testid="probe">{JSON.stringify(useLocation().state)}</p>
 }
@@ -61,7 +60,9 @@ describe('useArtistDetailPage playback', () => {
     act(() => {
       result.current.handleAlbumClick({ id: 'al1' } as AlbumSimple)
     })
-    expect(screen.getByTestId('probe').textContent).toBe(JSON.stringify({ from: '/artists/9?view=grid' }))
+    expect(screen.getByTestId('probe').textContent).toBe(
+      JSON.stringify({ from: '/artists/9?view=grid' })
+    )
   })
 })
 

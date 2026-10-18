@@ -13,7 +13,9 @@ describe('cleanupLegacyStorage', () => {
 
   it('removes Spotify token, profile and PKCE keys', () => {
     const legacy = ['access_token', 'refresh_token', 'user_profile', 'pkce_verifier', 'pkce_state']
-    legacy.forEach((k) => { localStorage.setItem(k, 'x'); })
+    legacy.forEach((k) => {
+      localStorage.setItem(k, 'x')
+    })
     sessionStorage.setItem('access_token', 'x')
     cleanupLegacyStorage()
     expect(localStorage.length).toBe(0)
@@ -59,6 +61,8 @@ describe('cleanupLegacyStorage', () => {
     vi.spyOn(window, 'localStorage', 'get').mockImplementation(() => {
       throw new Error('blocked')
     })
-    expect(() => { cleanupLegacyStorage(); }).not.toThrow()
+    expect(() => {
+      cleanupLegacyStorage()
+    }).not.toThrow()
   })
 })

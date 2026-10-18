@@ -103,7 +103,9 @@ describe('AlbumDetail', () => {
       captured.pagination?.onPrev()
       captured.pagination?.onNext()
     })
-    const [prev, next] = hook.setPage.mock.calls.map((c) => (c as unknown as [(p: number) => number])[0])
+    const [prev, next] = hook.setPage.mock.calls.map(
+      (c) => (c as unknown as [(p: number) => number])[0]
+    )
     expect(prev(1)).toBe(1)
     expect(prev(3)).toBe(2)
     expect(next(3)).toBe(4)

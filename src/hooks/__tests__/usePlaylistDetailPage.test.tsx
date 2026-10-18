@@ -22,7 +22,10 @@ vi.mock('@/hooks/queries/usePlaylist', () => ({
 let fullListFailed = false
 let pageTotal = 3
 let pageEmpty = false
-const allTracks = [...tracks, { id: '3', uri: 'u3', preview_url: 'http://p/3' }] as unknown as Track[]
+const allTracks = [
+  ...tracks,
+  { id: '3', uri: 'u3', preview_url: 'http://p/3' },
+] as unknown as Track[]
 
 vi.mock('@/hooks/queries/usePlaylistTracks', () => ({
   usePlaylistTracks: (_id: string, _enabled: boolean, _page: number, limit: number) => {
@@ -71,7 +74,6 @@ describe('usePlaylistDetailPage data', () => {
     await new Promise((r) => setTimeout(r, 20))
     expect(playTrack).not.toHaveBeenCalled()
   })
-
 
   it('falls back to the visible page when the full list failed', async () => {
     fullListFailed = true

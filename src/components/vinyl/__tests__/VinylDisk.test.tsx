@@ -23,7 +23,9 @@ describe('VinylDisk arc overlay size', () => {
 
   it('keeps the arc note still at the top of the disc while it spins or rests', () => {
     for (const isPlaying of [true, false]) {
-      const { container, unmount } = render(<VinylDisk size="lg" isPlaying={isPlaying} favoriteLabel="fav" />)
+      const { container, unmount } = render(
+        <VinylDisk size="lg" isPlaying={isPlaying} favoriteLabel="fav" />
+      )
       expect(container.querySelector('svg')?.outerHTML).not.toMatch(/rotate/)
       unmount()
     }

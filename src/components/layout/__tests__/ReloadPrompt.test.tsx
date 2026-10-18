@@ -7,7 +7,10 @@ import { ReloadPrompt } from '../ReloadPrompt'
 const setOfflineReady = vi.fn()
 const setNeedRefresh = vi.fn()
 const updateServiceWorker = vi.fn()
-let swOptions: { onRegistered: (r?: { scope: string }) => void; onRegisterError: (e: unknown) => void }
+let swOptions: {
+  onRegistered: (r?: { scope: string }) => void
+  onRegisterError: (e: unknown) => void
+}
 let offlineReady = true
 let needRefresh = false
 

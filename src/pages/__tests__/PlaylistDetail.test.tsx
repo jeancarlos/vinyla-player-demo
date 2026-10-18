@@ -146,7 +146,9 @@ describe('PlaylistDetail table view', () => {
   })
 
   it('falls back to a blank header when the playlist has no data', () => {
-    hook.playlist = { data: { name: 'N', images: [], link: 'l' } } as unknown as typeof hook.playlist
+    hook.playlist = {
+      data: { name: 'N', images: [], link: 'l' },
+    } as unknown as typeof hook.playlist
     renderPage()
     hook.playlist = { data: undefined }
   })

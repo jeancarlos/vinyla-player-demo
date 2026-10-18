@@ -8,8 +8,12 @@ vi.mock('@/hooks/useCatalogHealth', () => ({
   useCatalogHealth: () => ({ unavailable: mockUnavailable }),
 }))
 vi.mock('react-i18next', () => ({ useTranslation: () => ({ t: (k: string) => k }) }))
-vi.mock('../LyricsPreloader', () => ({ LyricsPreloader: () => <span data-testid="lyrics-preloader" /> }))
-vi.mock('../QueryErrorHandler', () => ({ QueryErrorHandler: () => <span data-testid="query-errors" /> }))
+vi.mock('../LyricsPreloader', () => ({
+  LyricsPreloader: () => <span data-testid="lyrics-preloader" />,
+}))
+vi.mock('../QueryErrorHandler', () => ({
+  QueryErrorHandler: () => <span data-testid="query-errors" />,
+}))
 vi.mock('@/components/vinyl/PersistentVinylDisk', () => ({
   PersistentVinylDisk: (props: { playerHovered?: boolean }) => (
     <span data-testid="vinyl" data-hovered={String(props.playerHovered)} />

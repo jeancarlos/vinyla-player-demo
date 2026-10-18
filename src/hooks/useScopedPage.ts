@@ -1,6 +1,8 @@
 import { useCallback, useState, type Dispatch, type SetStateAction } from 'react'
 
-export function useScopedPage(scope: string | undefined): [number, Dispatch<SetStateAction<number>>] {
+export function useScopedPage(
+  scope: string | undefined
+): [number, Dispatch<SetStateAction<number>>] {
   const [state, setState] = useState({ scope, page: 1 })
   const page = state.scope === scope ? state.page : 1
   const setPage = useCallback<Dispatch<SetStateAction<number>>>(

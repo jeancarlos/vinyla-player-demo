@@ -21,7 +21,10 @@ describe('HamburgerMenu', () => {
     await open()
     expect(screen.queryByRole('menu')).toBeNull()
     expect(screen.getByRole('link', { name: 'nav.home' })).toHaveAttribute('href', '/')
-    expect(screen.getByRole('link', { name: 'nav.favorites' })).toHaveAttribute('href', '/favorites')
+    expect(screen.getByRole('link', { name: 'nav.favorites' })).toHaveAttribute(
+      'href',
+      '/favorites'
+    )
   })
 
   it('gives the menu toggle a 44 px tap target', async () => {

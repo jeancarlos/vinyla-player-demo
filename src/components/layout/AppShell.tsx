@@ -6,7 +6,12 @@ import { DeezerAttribution } from '@/components/shared/DeezerAttribution'
 import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher'
 import { SkipLink } from '@/components/ui/SkipLink'
 
-const HUE_SHIFT: Record<string, number> = { artists: 35, albums: 70, playlists: -40, favorites: 140 }
+const HUE_SHIFT: Record<string, number> = {
+  artists: 35,
+  albums: 70,
+  playlists: -40,
+  favorites: 140,
+}
 
 export function AppShell() {
   const section = useLocation().pathname.split('/')[1]
